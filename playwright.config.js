@@ -4,6 +4,10 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './test',
 
+  // ✅ FIXED (removed extra bracket)
+  globalSetup: './Global-setup/setup.js',
+  globalTeardown: './Global-setup/teardown.js',
+
   fullyParallel: true,
 
   forbidOnly: !!process.env.CI,
@@ -12,7 +16,7 @@ export default defineConfig({
 
   workers: process.env.CI ? 1 : undefined,
 
-  // ✅ REPORTERS (keep only one definition)
+  // ✅ REPORTERS
   reporter: [
     ['list'],
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
@@ -24,9 +28,8 @@ export default defineConfig({
     baseURL: 'https://www.saucedemo.com',
 
     trace: 'on-first-retry',
-
-    screenshot: 'only-on-failure',   // 🔥 useful
-    video: 'retain-on-failure'       // 🔥 useful
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
 
   projects: [
